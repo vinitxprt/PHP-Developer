@@ -1,0 +1,96 @@
+<?php
+$errors = '';
+$myemail = 'example@gmail.com';//<-----Put Your email address here.
+if(empty($_POST['name'])  || 
+   empty($_POST['phonenumber']) || 
+   empty($_POST['emailaddres']) || 
+    empty($_POST['subject']) || 
+     empty($_POST['message']))
+{
+    $errors .= "\n Error: all fields are required";
+}
+
+$name = $_POST['name']; 
+$phone = $_POST['phonenumber']; 
+$email = $_POST['emailaddres']; 
+$subject = $_POST['subject'];
+$message = $_POST['message'];
+
+if (!preg_match(
+"/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/i", 
+$email))
+{
+    $errors .= "\n Error: Invalid email address";
+}
+
+if( empty($errors))
+
+{
+
+$to = $myemail;
+
+$email_subject = "Contact form submission: $name";
+
+$email_body = "  From:$name \n  Phone: $phone \n  email: $email \n subject: $subject \n message: $message \n";
+
+$headers = "From: $myemail\n";
+
+$headers .= "Reply-To: $email_address";
+
+mail($to,$email_subject,$email_body,$headers);
+
+//redirect to the 'thank you' page
+
+header('Location: contact.php');
+
+}
+?>
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Contact</title>
+<link href="style1.css" rel="stylesheet" type="text/css" media="all"/>
+
+<!--web-fonts-->
+<link href='//fonts.googleapis.com/css?family=Josefin+Sans:400,100,300,600,700' rel='stylesheet' type='text/css'>
+<!--web-fonts-->
+
+</head>
+<body style="background-color: black;">
+     <?php
+	  include "includes/header.php";
+	?>
+		<!---header--->
+		<div class="header">
+			
+		</div>
+		<!---header--->
+		<!---main--->
+			<div class="main">
+				<div class="main-section">
+				<div class="login-form">
+				<form name="ContactForm" method="post">
+
+<h4 style=" margin-top: 0px;">your name</h4>
+<input type="text" name="name" class="user" placeholder="Johne"  autocomplete="off" required>
+
+<h4 style=" margin-top: 0px;">your phone number</h4>
+<input type="text" name="phonenumber" class="phone" placeholder="0900.234.145678" maxlength="10" required autocomplete="off">
+
+<h4 style=" margin-top: 0px;">your email address</h4>
+<input type="email" name="emailaddres" class="email" placeholder="Example@mail.com" required autocomplete="off">
+
+<h4 style=" margin-top: 0px;">your subject</h4>
+<input type="text" name="subject" class="email" placeholder="Subject" autocomplete="off">
+
+<h4 style=" margin-top: 0px;">your message</h4>
+<textarea class="mess" name="message" placeholder="Message" required></textarea>
+<input type="submit" value="send your message" name="submit">
+</form>
+</div>
+</div>
+</div>
+<!---main--->
+</body>
+</html>
+
